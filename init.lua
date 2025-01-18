@@ -1,7 +1,7 @@
 --[[
 
 	DIAGRAM: "Keys in tables age when new keys are added."
-	AUTHOR: Grunt (@DazKen12)
+	AUTHOR: micymoos (@DragonsDogo)
 
 	DESCRIPTION
 	A simple module that manages a table, allowing you to add and retrieve values dynamically.
@@ -21,6 +21,7 @@ end
 
 -- Adds a new key-value pair to the table and increases the age of all existing keys.
 function Diagram:Add(Table, Params)
+	if Table.Freezed then return error("Table is read-only.") end
 	Table.Count += 1  -- Increment the count of keys in the table
 	for _, Data in Table.Data do
 		Data.Age += 1  -- Increment the age of existing entries by 1
@@ -34,6 +35,7 @@ end
 
 -- Clears all data from the table and resets its state.
 function Diagram:Clear(Table)
+	if Table.Freezed then return error("Table is read-only.") end
 	Table.Count = 0  -- Reset the count to 0
 	Table.Freezed = nil  -- Unfreeze the table
 	Table.Data = {}  -- Empty the data table
@@ -41,6 +43,7 @@ end
 
 -- Creates a shallow clone of the table.
 function Diagram:Clone(Table)
+	if Table.Freezed then return error("Table is read-only.") end
 	local Clone = {}  -- Create an empty table for the clone
 	for Key, Value in Table do
 		Clone[Key] = Value  -- Copy each key-value pair into the clone
@@ -66,7 +69,6 @@ function Diagram:Concatenate(Table, Separator, Index, Value)
 	return Result  -- Return the concatenated result
 end
 
-
 -- Searches for Needle in the Haystack starting from Initial index.
 function Diagram:Find(Haystack, Needle, Initial)
 	Initial = Initial or 0  -- Default starting index is 0 if not provided
@@ -80,7 +82,7 @@ end
 
 -- Freezes the table to prevent modifications (making it read-only).
 function Diagram:Freeze(Table)
-	Table.Freezed = true  -- Set the Freezed flag to true
+	Table.Freezed = true
 	setmetatable(Table, {  -- Change the metatable to disallow modifications
 		__newindex = function(_, Key, Value)
 			error("Attempt to modify a read-only table.")  -- Throw an error if there's an attempt to modify the table
@@ -90,7 +92,7 @@ end
 
 -- Checks if the table is frozen.
 function Diagram:Frozen(Table)
-	return Table.Freezed ~= nil  -- Return true if Freezed is not nil, indicating the table is frozen
+	if Table.Freezed == true then return true else return false end
 end
 
 -- Returns the maximum numeric key in the table.
@@ -125,6 +127,7 @@ function Diagram:Pack(...)
 end
 
 function Diagram:Remove(Table, Index)
+	if Table.Freezed then return error("Table is read-only.") end
 	if not Table.Data[Index] then return nil end  -- Check if the element exists in the table
 	local Remove = Table.Data[Index]  -- Get the element to be removed
 	-- Shift subsequent entries to the left
@@ -139,6 +142,7 @@ end
 
 -- Sorts the table based on the provided Comparison function.
 function Diagram:Sort(Table, Comparison)
+	if Table.Freezed then return error("Table is read-only.") end
 	if not Comparison then
 		Comparison = function(A,B)
 			return A < B  -- Default comparison function sorts in ascending order
