@@ -1,7 +1,7 @@
 --[[
 
 	DIAGRAM: "Keys in tables age when new keys are added."
-	AUTHOR: micymoos (@DragonsDogo)
+	AUTHOR: Grunt (@DazKen12)
 
 	DESCRIPTION
 	A simple module that manages a table, allowing you to add and retrieve values dynamically.
