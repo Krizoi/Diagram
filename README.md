@@ -34,8 +34,8 @@ local MyTable = Diagram:Create()
 Diagram:Add(MyTable, {Key = 1, Value = "Apple"})
 
 print("Table Data:")
-for key, data in pairs(myDiagram.Data) do
-	print(key, data.Value, "Age:", data.Age)
+for Key, Data in MyTable.Data do
+	print(Key, Data.Value, "Age:", Data.Age)
 end
 
 -- Output: "1 Apple Age: 0"
