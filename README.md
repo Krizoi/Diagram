@@ -9,6 +9,5 @@ The module focuses on index management for handling data, and most of its method
    - Preferably, into ReplicatedStorage or ServerStorage.
 3. Once done, require the module.
 ```lua
-
-thing
+local Diagram = require([[DIAGRAM_PATH]])
 ```
